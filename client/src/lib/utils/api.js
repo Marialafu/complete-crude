@@ -6,7 +6,6 @@ export const getAllData = async () => {
 		const response = await fetch(URL_BASE + URL_API);
 		if (response.ok) {
 			const data = await response.json();
-			
 			return data;
 		} else {
 			return [];
@@ -20,6 +19,9 @@ export const getAllData = async () => {
 export const getDataById = async id => {
 	try {
 		const response = await fetch(URL_BASE + URL_API + id);
+		console.log(response);
+		
+		console.log(response.ok);
 		if (response.ok) {
 			const data = await response.json();
 			return data;

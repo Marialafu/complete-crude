@@ -1,14 +1,16 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { getAllData } from '../../lib/utils/api';
 import {
+	StyledButton,
 	StyledCardContainer,
 	StyledCardsContainer,
 	StyledImg,
 	StyledStatus,
 	StyledUserName
 } from './home.styles';
+import { Link } from 'react-router-dom';
 
-const Home = ({ users }) => {
+const Home = () => {
 	const [users, setUsers] = useState();
 
 	useEffect(() => {
@@ -28,6 +30,9 @@ const Home = ({ users }) => {
 					<StyledStatus $active={user.active}>
 						{defineUserStatus(user.active)}
 					</StyledStatus>
+					<Link key={user.userId} to={`/${user.userId}`}>
+						<StyledButton>DETAILS</StyledButton>
+					</Link>
 				</StyledCardContainer>
 			))}
 			;
