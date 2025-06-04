@@ -6,7 +6,6 @@ export const getAllData = async () => {
 		const response = await fetch(URL_BASE + URL_API);
 		if (response.ok) {
 			const data = await response.json();
-			console.log(data);
 			
 			return data;
 		} else {
