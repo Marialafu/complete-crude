@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { StyledTagContainer } from '../../pages/user-profile/user-profile.styles';
 import {
+	StyledErrorMessage,
 	StyledImg,
 	StyledPersonalDataContainer
 } from './user-editing-profile.styles';
@@ -17,12 +18,14 @@ const UserEditingProfile = ({ user, setEditProfile }) => {
 	const {
 		handleSubmit,
 		register,
-		formState: { errors }
+		formState: { errors },
+		watch
 	} = useForm({
 		defaultValues: {
 			active: user.active,
 			name: user.fullName,
-			email: user.email
+			email: user.email,
+			phone: user.phoneNumber
 		}
 	});
 
@@ -45,15 +48,25 @@ const UserEditingProfile = ({ user, setEditProfile }) => {
 						id='name'
 						{...register('name', VALIDATIONS.name)}
 					/>
-					<StyledErrorMessage>{error?.name?.message?.}</StyledErrorMessage>
+					<StyledErrorMessage>{errors?.name?.message}</StyledErrorMessage>
 				</StyledTagContainer>
 				<StyledTagContainer>
 					<label htmlFor='email'>Email</label>
 					<input
-						type='email'
+						type='text'
 						id='email'
 						{...register('email', VALIDATIONS.email)}
 					/>
+					<StyledErrorMessage>{errors?.email?.message}</StyledErrorMessage>
+				</StyledTagContainer>
+				<StyledTagContainer>
+					<label htmlFor='phone'>Phone</label>
+					<input
+						type='text'
+						id='phone'
+						{...register('phone', VALIDATIONS.phone)}
+					/>
+					<StyledErrorMessage>{errors?.phone?.message}</StyledErrorMessage>
 				</StyledTagContainer>
 				<StyledButton type='submit'>SAVE</StyledButton>
 			</StyledPersonalDataContainer>

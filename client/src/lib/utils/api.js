@@ -50,6 +50,7 @@ export const updateDataById = async (id, body) => {
 };
 
 export const deleteDataById = async id => {
+	
 	try {
 		const response = await fetch(URL_BASE + URL_API + id, {
 			method: 'DELETE'

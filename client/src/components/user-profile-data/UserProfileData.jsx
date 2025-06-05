@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+import { deleteDataById } from '../../lib/utils/api';
 import {
 	StyledButton,
 	StyledDeleteButton,
@@ -24,11 +26,13 @@ const UserProfileData = ({ user, setEditProfile }) => {
 				</StyledStatus>
 				<span>Gender: {user.gender}</span>
 				<span>Date of Birth: {user.dateOfBirth}</span>
-				<span>Phone Number: {user.phoneNumber}</span>
+				<span>Phone Number: {formatedPhoneNumber(user.phoneNumber)}</span>
 			</StyledPersonalDataContainer>
 			<StyledFooter>
 				<StyledButton onClick={() => setEditProfile(true)}>EDIT</StyledButton>
-				<StyledDeleteButton>DELETE</StyledDeleteButton>
+				<StyledDeleteButton onClick={() => deleteUser(user.userId)}>
+					DELETE
+				</StyledDeleteButton>
 			</StyledFooter>
 		</>
 	);
@@ -37,6 +41,23 @@ const UserProfileData = ({ user, setEditProfile }) => {
 const defineUserStatus = active => {
 	const status = active ? 'Activo' : 'Inactivo';
 	return status;
+};
+
+const deleteUser = async id => {
+	try {
+		await deleteDataById(id);
+	} catch (error) {
+		return console.log(error);
+	}
+};
+
+const formatedPhoneNumber = phoneNumber => {
+	//como hacer bien
+	const intro = '+';
+	const unifyDigits = phoneNumber.replace(/\D/g, '');
+	const divideDigits = unifyDigits.match(/.{1,4}/g).join('-');
+
+	return intro + divideDigits;
 };
 
 export default UserProfileData;

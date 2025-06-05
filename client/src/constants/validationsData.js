@@ -22,16 +22,16 @@ const PhoneNumberValidation = {
         value: /^\d+$/,
         message: '*Invalid phone number'
     },
-    minLength: {
+    maxLength: {
         value: 10,
-        message: '*Invalid phone number'
+        message: '*Phone number must have 10 digits. Must include +1'
     }
 }
 
 const EmailValidation = {
     required: fildIncomplete,
     pattern: {
-        value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+        value: /^[a-zA-Z0-9._%+-]+@(gmail\.com|hotmail\.com|outlook\.com|yahoo\.com)$/,
         message: '*Invalid email'
     }
 }
