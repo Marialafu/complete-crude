@@ -6,23 +6,54 @@ import {
 } from './user-editing-profile.styles';
 import { updateDataById } from '../../lib/utils/api';
 import { StyledButton } from '../user-profile-data/user-profile-data.styles';
+import { useForm } from 'react-hook-form';
+import { VALIDATIONS } from '../../constants/validationsData';
 
-const UserEditingProfile = ({ user }) => {
+const UserEditingProfile = ({ user, setEditProfile }) => {
 	// useEffect(() => {
 	// 	updateUser(user.userId, );
 	// }, [user]);
 
+	const {
+		handleSubmit,
+		register,
+		formState: { errors }
+	} = useForm({
+		defaultValues: {
+			active: user.active,
+			name: user.fullName,
+			email: user.email
+		}
+	});
+
 	return (
 		<>
 			<StyledImg src={user.profilePicture} />
-			<StyledPersonalDataContainer onSubmit={saveNewUserData}>
+			<StyledPersonalDataContainer
+				onSubmit={handleSubmit(event =>
+					updateUser(user.userId, event, setEditProfile)
+				)}
+			>
 				<StyledTagContainer>
 					<label htmlFor='active'>Active</label>
-					<input type='checkbox' id='active' />
+					<input type='checkbox' id='active' {...register('active')} />
 				</StyledTagContainer>
 				<StyledTagContainer>
 					<label htmlFor='name'>Name</label>
-					<input type='text' id='name' defaultValue={user.fullName} />
+					<input
+						type='text'
+						id='name'
+						{...register('name', VALIDATIONS.name)}
+					/>
+					<StyledErrorMessage>{error?.name?.message?.}</StyledErrorMessage>
+				</StyledTagContainer>
+				<StyledTagContainer>
+					<label htmlFor='email'>Email</label>
+					<input
+						type='email'
+						id='email'
+						{...register('email', VALIDATIONS.email)}
+					/>
 				</StyledTagContainer>
 				<StyledButton type='submit'>SAVE</StyledButton>
 			</StyledPersonalDataContainer>
@@ -30,17 +61,15 @@ const UserEditingProfile = ({ user }) => {
 	);
 };
 
-// const updateUser = async (id, string) => {
-// 	try {
-// 		const user = await updateDataById(id, string);
-// 		console.log(user);
-// 	} catch (error) {
-// 		console.log(error);
-// 	}
-// };
+const updateUser = async (id, body, setEditProfile) => {
+	console.log(body);
 
-const saveNewUserData = event => {
-	console.log(event);
+	try {
+		const user = await updateDataById(id, body);
+		await setEditProfile(false);
+	} catch (error) {
+		console.log(error);
+	}
 };
 
 export default UserEditingProfile;

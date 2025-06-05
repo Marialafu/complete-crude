@@ -9,7 +9,6 @@ usersController.readUsers = (req, res) => {
   fs.readFile(usersFilePath, (error, data) => {
     if (error) return res.status(500).send('Error al leer el archivo');
     const jsonData = JSON.parse(data);
-
     res.send(jsonData);
   });
 };
@@ -31,31 +30,36 @@ usersController.readUserById = (req, res) => {
 
 usersController.updateUser = (req, res) => {
   const { id } = req.params;
-  const { email } = req.body;
+  const { email, name } = req.body;
 
   fs.readFile(usersFilePath, (error, data) => {
     if (error) return res.status(500).send('Error al leer el archivo');
 
+    const usersList = JSON.parse(data);
+    
+
     if (email) {
       const repeatedEmail = usersList.some(
         user => user.userId !== id && user.email === email
-      );
-    }
-    if (repeatedEmail)
+      )
+      
+      if (repeatedEmail)
       return res.status(500).send('Error al escribir el archivo');
-
-    const usersList = JSON.parse(data);
+    }
+    
     const updatedUser = usersList.map(user => {
       if (user.userId === id) {
-        user = { ...req.body };
+        user = { ...req.body};
+        console.log(user);
+        
         return user;
       }
       return user;
     });
 
-    fs.writeFile(usersFilePath, JSON.stringify(updatedUser), error => {
-      if (error) return res.status(500).send('Error al actualizar el archivo');
-    });
+    // fs.writeFile(usersFilePath, JSON.stringify(updatedUser), error => {
+    //   if (error) return res.status(500).send('Error al actualizar el archivo');
+    // });
   });
 
   res.send();

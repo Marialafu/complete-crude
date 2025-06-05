@@ -22,4 +22,8 @@ const StyledButton = styled.button`
 	margin-bottom: 0.625rem;
 `;
 
-export { StyledImg, StyledPersonalDataContainer, StyledButton };
+const StyledErrorMessage = styled.span`
+	color: red;
+`
+
+export { StyledImg, StyledPersonalDataContainer, StyledButton, StyledErrorMessage };

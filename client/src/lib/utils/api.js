@@ -31,14 +31,19 @@ export const getDataById = async id => {
 };
 
 export const updateDataById = async (id, body) => {
+	
 	try {
 		const response = await fetch(URL_BASE + URL_API + id, {
 			method: 'PATCH',
 			body: JSON.stringify(body),
 			headers: { 'Content-Type': 'application/json' }
 		});
+		
+		if (response.status === 200) return
 		const data = await response.json();
+		
 		return data;
+
 	} catch (error) {
 		console.log(error);
 	}

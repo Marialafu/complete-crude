@@ -10,7 +10,6 @@ const UserProfile = () => {
 	const [user, setUser] = useState();
 	const [editProfile, setEditProfile] = useState(false);
 	const { id } = useParams();
-	console.log(user);
 
 	useEffect(() => {
 		getUserById(setUser, id);
@@ -34,7 +33,9 @@ const UserProfile = () => {
 			{!editProfile && (
 				<UserProfileData user={user} setEditProfile={setEditProfile} />
 			)}
-			{editProfile && <UserEditingProfile user={user} />}
+			{editProfile && (
+				<UserEditingProfile user={user} setEditProfile={setEditProfile} />
+			)}
 		</StyledCardContainer>
 	);
 };
@@ -42,7 +43,6 @@ const UserProfile = () => {
 const getUserById = async (setUser, id) => {
 	try {
 		const user = await getDataById(id);
-
 		setUser(user);
 	} catch (error) {
 		console.log(error);
