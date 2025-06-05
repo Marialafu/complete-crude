@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { deleteDataById } from '../../lib/utils/api';
 import {
 	StyledButton,
@@ -12,6 +12,7 @@ import {
 } from './user-profile-data.styles';
 
 const UserProfileData = ({ user, setEditProfile }) => {
+	const navigateToPrevious = useNavigate();
 	return (
 		<>
 			<StyledProfileContainer>
@@ -30,7 +31,9 @@ const UserProfileData = ({ user, setEditProfile }) => {
 			</StyledPersonalDataContainer>
 			<StyledFooter>
 				<StyledButton onClick={() => setEditProfile(true)}>EDIT</StyledButton>
-				<StyledDeleteButton onClick={() => deleteUser(user.userId)}>
+				<StyledDeleteButton
+					onClick={() => deleteUser(user.userId, navigateToPrevious(-1))}
+				>
 					DELETE
 				</StyledDeleteButton>
 			</StyledFooter>
@@ -43,9 +46,10 @@ const defineUserStatus = active => {
 	return status;
 };
 
-const deleteUser = async id => {
+const deleteUser = async (id, navigateToPrevious) => {
 	try {
 		await deleteDataById(id);
+		await navigateToPrevious();
 	} catch (error) {
 		return console.log(error);
 	}

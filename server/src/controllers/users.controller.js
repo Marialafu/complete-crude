@@ -30,7 +30,7 @@ usersController.readUserById = (req, res) => {
 
 usersController.updateUser = (req, res) => {
   const { id } = req.params;
-  const { email, name } = req.body;
+  const { email, fullName, phoneNumber, birthDate } = req.body;
 
   fs.readFile(usersFilePath, (error, data) => {
     if (error) return res.status(500).send('Error al leer el archivo');
@@ -49,7 +49,7 @@ usersController.updateUser = (req, res) => {
     
     const updatedUser = usersList.map(user => {
       if (user.userId === id) {
-        user = { ...req.body};
+        user = { ...user, ...req.body};
         console.log(user);
         
         return user;
@@ -57,9 +57,9 @@ usersController.updateUser = (req, res) => {
       return user;
     });
 
-    // fs.writeFile(usersFilePath, JSON.stringify(updatedUser), error => {
-    //   if (error) return res.status(500).send('Error al actualizar el archivo');
-    // });
+    fs.writeFile(usersFilePath, JSON.stringify(updatedUser), error => {
+      if (error) return res.status(500).send('Error al actualizar el archivo');
+    });
   });
 
   res.send();

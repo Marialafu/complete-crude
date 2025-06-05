@@ -22,10 +22,6 @@ const PhoneNumberValidation = {
         value: /^\d+$/,
         message: '*Invalid phone number'
     },
-    maxLength: {
-        value: 10,
-        message: '*Phone number must have 10 digits. Must include +1'
-    }
 }
 
 const EmailValidation = {
@@ -37,7 +33,8 @@ const EmailValidation = {
 }
 
 export const VALIDATIONS = {
-    name: NameValidation,
-    phone: PhoneNumberValidation,
-    email: EmailValidation
+    fullName: NameValidation,
+    phoneNumber: PhoneNumberValidation,
+    email: EmailValidation,
+    dateOfBirth: BirthDateValidation
 }

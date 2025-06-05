@@ -31,7 +31,11 @@ const UserProfile = () => {
 				<StyledButton>BACK TO USERS</StyledButton>
 			</Link>
 			{!editProfile && (
-				<UserProfileData user={user} setEditProfile={setEditProfile} />
+				<UserProfileData
+					user={user}
+					setEditProfile={setEditProfile}
+					editProfile={editProfile}
+				/>
 			)}
 			{editProfile && (
 				<UserEditingProfile user={user} setEditProfile={setEditProfile} />

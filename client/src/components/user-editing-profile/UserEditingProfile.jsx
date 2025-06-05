@@ -18,14 +18,14 @@ const UserEditingProfile = ({ user, setEditProfile }) => {
 	const {
 		handleSubmit,
 		register,
-		formState: { errors },
-		watch
+		formState: { errors }
 	} = useForm({
 		defaultValues: {
 			active: user.active,
-			name: user.fullName,
+			fullName: user.fullName,
 			email: user.email,
-			phone: user.phoneNumber
+			phoneNumber: user.phoneNumber,
+			dateOfBirth: user.dateOfBirth
 		}
 	});
 
@@ -42,11 +42,11 @@ const UserEditingProfile = ({ user, setEditProfile }) => {
 					<input type='checkbox' id='active' {...register('active')} />
 				</StyledTagContainer>
 				<StyledTagContainer>
-					<label htmlFor='name'>Name</label>
+					<label htmlFor='fullName'>Name</label>
 					<input
 						type='text'
-						id='name'
-						{...register('name', VALIDATIONS.name)}
+						id='fullName'
+						{...register('fullName', VALIDATIONS.fullName)}
 					/>
 					<StyledErrorMessage>{errors?.name?.message}</StyledErrorMessage>
 				</StyledTagContainer>
@@ -60,12 +60,13 @@ const UserEditingProfile = ({ user, setEditProfile }) => {
 					<StyledErrorMessage>{errors?.email?.message}</StyledErrorMessage>
 				</StyledTagContainer>
 				<StyledTagContainer>
-					<label htmlFor='phone'>Phone</label>
-					<input
-						type='text'
-						id='phone'
-						{...register('phone', VALIDATIONS.phone)}
-					/>
+					<label htmlFor='dateOfBirth'>Date of Birth</label>
+					<input type='date' id='dateOfBirth' {...register('dateOfBirth')} />
+					<StyledErrorMessage>{errors?.email?.message}</StyledErrorMessage>
+				</StyledTagContainer>
+				<StyledTagContainer>
+					<label htmlFor='phoneNumber'>Phone</label>
+					<input type='text' id='phoneNumber' {...register('phoneNumber')} />
 					<StyledErrorMessage>{errors?.phone?.message}</StyledErrorMessage>
 				</StyledTagContainer>
 				<StyledButton type='submit'>SAVE</StyledButton>
