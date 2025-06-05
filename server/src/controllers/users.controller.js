@@ -8,33 +8,24 @@ const usersController = {};
 usersController.readUsers = (req, res) => {
   fs.readFile(usersFilePath, (error, data) => {
     if (error) return res.status(500).send('Error al leer el archivo');
-
     const jsonData = JSON.parse(data);
-    console.log(data);
-    
+
     res.send(jsonData);
   });
 };
 
-usersController.postNewUser = (req, res) => {
-  const { name, email } = req.body;
+usersController.readUserById = (req, res) => {
+  const { id } = req.params;
 
   fs.readFile(usersFilePath, (error, data) => {
     if (error) return res.status(500).send('Error al leer el archivo');
-
     const usersList = JSON.parse(data);
-    const newUser = { userId: v4(), name: name, email: email };
-    const newUsersList = JSON.stringify([...usersList, newUser]);
-
-    const repeatedEmail = usersList.some(user => {
-      return user.email === newUser.email;
+    const userById = usersList.find(user => {
+      return user.userId === id;
     });
 
-    if (repeatedEmail) return res.status(409).send('Correo ya registrado');
-
-    fs.writeFile(usersFilePath, newUsersList, error => {
-      if (error) return res.status(500).send('Error al escribir el archivo');
-    });
+    if (!userById) return res.status(404).send('Usuario no encontrado');
+    res.send(userById);
   });
 };
 

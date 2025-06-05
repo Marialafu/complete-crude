@@ -1,24 +1,49 @@
 import { useEffect, useState } from 'react';
 import { StyledCardContainer } from './user-profile.styles';
 import { getDataById } from '../../lib/utils/api';
+import { Link, useParams } from 'react-router-dom';
+import UserProfileData from '../../components/user-profile-data/UserProfileData';
+import UserEditingProfile from '../../components/user-editing-profile/UserEditingProfile';
+import { StyledButton } from '../../components/user-profile-data/user-profile-data.styles';
 
 const UserProfile = () => {
-	console.log(getDataById('e65e1490-c230-4043-80bc-ea32fee5f57c'));
-
 	const [user, setUser] = useState();
-	if (!user) return <h2>Loading user...</h2>;
+	const [editProfile, setEditProfile] = useState(false);
+	const { id } = useParams();
+	console.log(user);
 
 	useEffect(() => {
-		getUserById(setUser);
-	});
+		getUserById(setUser, id);
+	}, [id]);
 
-	return <StyledCardContainer>USER</StyledCardContainer>;
+	if (user !== null && !user) return <h2>Loading user...</h2>;
+	if (user === null)
+		return (
+			<>
+				<Link to={'/'}>
+					<StyledButton>BACK TO USERS</StyledButton>
+				</Link>
+				<h2>NO USER FOUND</h2>
+			</>
+		);
+	return (
+		<StyledCardContainer>
+			<Link to={'/'}>
+				<StyledButton>BACK TO USERS</StyledButton>
+			</Link>
+			{!editProfile && (
+				<UserProfileData user={user} setEditProfile={setEditProfile} />
+			)}
+			{editProfile && <UserEditingProfile user={user} />}
+		</StyledCardContainer>
+	);
 };
 
-const getUserById = async setUser => {
+const getUserById = async (setUser, id) => {
 	try {
-		const user = await getDataById('e65e1490-c230-4043-80bc-ea32fee5f57c');
-		console.log(user);
+		const user = await getDataById(id);
+
+		setUser(user);
 	} catch (error) {
 		console.log(error);
 	}

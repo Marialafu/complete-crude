@@ -30,7 +30,7 @@ const Home = () => {
 					<StyledStatus $active={user.active}>
 						{defineUserStatus(user.active)}
 					</StyledStatus>
-					<Link key={user.userId} to={`/${user.userId}`}>
+					<Link key={user.userId} to={`user-profile/${user.userId}`}>
 						<StyledButton>DETAILS</StyledButton>
 					</Link>
 				</StyledCardContainer>
