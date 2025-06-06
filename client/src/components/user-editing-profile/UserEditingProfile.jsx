@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { StyledTagContainer } from '../../pages/user-profile/user-profile.styles';
 import {
 	StyledErrorMessage,
@@ -10,11 +9,7 @@ import { StyledButton } from '../user-profile-data/user-profile-data.styles';
 import { useForm } from 'react-hook-form';
 import { VALIDATIONS } from '../../constants/validationsData';
 
-const UserEditingProfile = ({ user, setEditProfile }) => {
-	// useEffect(() => {
-	// 	updateUser(user.userId, );
-	// }, [user]);
-
+const UserEditingProfile = ({ user, setUser, setEditProfile, setLoading }) => {
 	const {
 		handleSubmit,
 		register,
@@ -34,7 +29,7 @@ const UserEditingProfile = ({ user, setEditProfile }) => {
 			<StyledImg src={user.profilePicture} />
 			<StyledPersonalDataContainer
 				onSubmit={handleSubmit(event =>
-					updateUser(user.userId, event, setEditProfile)
+					updateUser(user.userId, event, setEditProfile, setUser, setLoading)
 				)}
 			>
 				<StyledTagContainer>
@@ -75,15 +70,11 @@ const UserEditingProfile = ({ user, setEditProfile }) => {
 	);
 };
 
-const updateUser = async (id, body, setEditProfile) => {
-	console.log(body);
-
-	try {
-		const user = await updateDataById(id, body);
-		await setEditProfile(false);
-	} catch (error) {
-		console.log(error);
-	}
+const updateUser = async (id, body, setEditProfile, setUser, setLoading) => {
+	const userUpdated = await updateDataById(id, body);
+	setEditProfile(false);
+	setUser(userUpdated);
+	setLoading(false);
 };
 
 export default UserEditingProfile;

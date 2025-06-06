@@ -9,14 +9,16 @@ import { StyledButton } from '../../components/user-profile-data/user-profile-da
 const UserProfile = () => {
 	const [user, setUser] = useState();
 	const [editProfile, setEditProfile] = useState(false);
+	const [loading, setLoading] = useState(true);
 	const { id } = useParams();
 
 	useEffect(() => {
-		getUserById(setUser, id);
+		getUserById(setUser, id, setLoading);
 	}, [id]);
 
-	if (user !== null && !user) return <h2>Loading user...</h2>;
-	if (user === null)
+	if (loading) return <h2>Loading user...</h2>;
+
+	if (!user)
 		return (
 			<>
 				<Link to={'/'}>
@@ -38,16 +40,22 @@ const UserProfile = () => {
 				/>
 			)}
 			{editProfile && (
-				<UserEditingProfile user={user} setEditProfile={setEditProfile} />
+				<UserEditingProfile
+					user={user}
+					setEditProfile={setEditProfile}
+					setUser={setUser}
+					setLoading={setLoading}
+				/>
 			)}
 		</StyledCardContainer>
 	);
 };
 
-const getUserById = async (setUser, id) => {
+const getUserById = async (setUser, id, setLoading) => {
 	try {
 		const user = await getDataById(id);
 		setUser(user);
+		setLoading(false);
 	} catch (error) {
 		console.log(error);
 	}

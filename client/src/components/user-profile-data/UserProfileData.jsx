@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { deleteDataById } from '../../lib/utils/api';
 import {
 	StyledButton,
@@ -32,7 +32,7 @@ const UserProfileData = ({ user, setEditProfile }) => {
 			<StyledFooter>
 				<StyledButton onClick={() => setEditProfile(true)}>EDIT</StyledButton>
 				<StyledDeleteButton
-					onClick={() => deleteUser(user.userId, navigateToPrevious(-1))}
+					onClick={() => deleteUser(user.userId, navigateToPrevious)}
 				>
 					DELETE
 				</StyledDeleteButton>
@@ -47,12 +47,8 @@ const defineUserStatus = active => {
 };
 
 const deleteUser = async (id, navigateToPrevious) => {
-	try {
-		await deleteDataById(id);
-		await navigateToPrevious();
-	} catch (error) {
-		return console.log(error);
-	}
+	await deleteDataById(id);
+	navigateToPrevious('/');
 };
 
 const formatedPhoneNumber = phoneNumber => {
